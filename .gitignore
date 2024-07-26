@@ -1,0 +1,13 @@
+# Visual Studio Code
+.vscode/
+*.code-workspace
+
+# PyQt and Python
+*.pyc
+__pycache__
+venv/
+.idea/
+*.log
+*.spec
+build/
+dist/
