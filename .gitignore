@@ -11,3 +11,9 @@ venv/
 *.spec
 build/
 dist/
+*.egg-info/*
+*.egg
+*.egg-link
+*.pyc
+*.pyo
+*.pyd
