@@ -1,6 +1,9 @@
+import os
 import sys
-from PyQt5.QtCore import pyqtSlot, QMetaObject
-from PyQt5.QtWidgets import QApplication,QMainWindow,QFileDialog
+from PySide6.QtCore import Qt, QMetaObject, QTranslator
+from PySide6.QtGui import QAction, QIcon
+from PySide6.QtWidgets import QApplication, QMainWindow, QFileDialog, QToolBar
+
 from chardet.universaldetector import UniversalDetector
 
 from qrdata.qrdata_ui import Ui_MainWindow  # 导入从.ui文件生成的UI类
@@ -14,7 +17,13 @@ class MainWindow(QMainWindow):
         super(MainWindow, self).__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-        QMetaObject.connectSlotsByName(self)
+
+        toolbar = QToolBar("qrdata toolbar")
+        self.addToolBar(toolbar)
+        button_action = QAction(QIcon(os.path.join(os.path.dirname(__file__), "data/images/locale.jpg")), "Your button", self)
+        button_action.setStatusTip("This is your button")
+        # button_action.triggered.connect(self.onLocaleButtonClick)
+        toolbar.addAction(button_action)
 
         self.qrdata = qrdata
         self.input_data = input_data
@@ -24,10 +33,12 @@ class MainWindow(QMainWindow):
         self.ui.versionSlider.valueChanged.connect(lambda x: self.qrdata.set_version(self.ui.versionSlider.value()))
         self.ui.inputFilePushButton.clicked.connect(self.openFileDialog)
         self.ui.outputDirPushButton.clicked.connect(self.selectOutputDirectory)
+        self.ui.inputTextTextEdit.textChanged.connect(self.inputTextTextEdit_textChanged)
         self.ui.runPushButton.clicked.connect(self.runPushButton_clicked)
 
+        QMetaObject.connectSlotsByName(self)
         self.show()
-    
+
     def updateVersionLabel(self):
         version_value = self.ui.versionSlider.value()
         self.ui.versionLabel.setText(str(version_value))
@@ -39,11 +50,12 @@ class MainWindow(QMainWindow):
             log_str = "文件编码格式为：{}， 置信度为：{}".format(file_encoding, confidence)
             self.logger.log(log_str)
             if file_encoding != 'unknown' and confidence > 0.75:
+                #TODO 根据不同的编码格式，进行不同的处理
                 with open(selected_file, 'r', encoding='utf-8', errors='ignore') as file:
                     content = file.read()
-                self.ui.inputTextTextEdit.setText(content)
+                self.ui.inputTextTextEdit.appendPlainText(content)
             else:
-                self.ui.inputTextTextEdit.setText(f"<span style='color:red;'>该文件为二进制文件</span>")
+                self.ui.inputTextTextEdit.appendPlainText(f"<span style='color:red;'>该文件为二进制文件</span>")
             self.ui.inputFileLineEdit.setText(selected_file)
     def selectOutputDirectory(self):
         selected_directory = QFileDialog.getExistingDirectory(self, "选择目录")
@@ -73,8 +85,7 @@ class MainWindow(QMainWindow):
             confidence = 0.99
         return file_encoding, confidence
     
-    @pyqtSlot()
-    def on_inputTextTextEdit_textChanged(self):
+    def inputTextTextEdit_textChanged(self):
         text = self.ui.inputTextTextEdit.toPlainText()
         self.input_data.load_data(text, "utf-8")
 
@@ -96,6 +107,14 @@ class MainWindow(QMainWindow):
 
 def main():
     app = QApplication(sys.argv)
+
+    #TODO 将界面由ui改为qml，实现多语言运行时切换
+    #https://github.com/AndreAugustoDev/Python-QML-Dynamic-Language-Switch
+    current_dir = os.path.dirname(__file__)
+    translator = QTranslator()
+    if translator.load('zh_cn.qm', directory=os.path.join(current_dir, 'data/i18n')):
+        app.installTranslator(translator)
+        
     qr_data = QRData()
     input_data = InputData()
     window = MainWindow(qr_data, input_data)

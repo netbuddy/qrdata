@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>606</height>
+    <width>1169</width>
+    <height>815</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -22,22 +22,22 @@
       </property>
       <widget class="QWidget" name="create">
        <attribute name="title">
-        <string>生成</string>
+        <string>Generate</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
          <widget class="QFrame" name="frame">
           <property name="frameShape">
-           <enum>QFrame::StyledPanel</enum>
+           <enum>QFrame::Shape::StyledPanel</enum>
           </property>
           <property name="frameShadow">
-           <enum>QFrame::Raised</enum>
+           <enum>QFrame::Shadow::Raised</enum>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout">
            <item>
             <widget class="QGroupBox" name="parameter">
              <property name="title">
-              <string>二维码参数</string>
+              <string>QRCode parameters</string>
              </property>
              <layout class="QGridLayout" name="gridLayout">
               <item row="2" column="1">
@@ -49,21 +49,21 @@
                  <item row="1" column="1">
                   <widget class="QRadioButton" name="radioButton_8">
                    <property name="text">
-                    <string>字节</string>
+                    <string>Byte</string>
                    </property>
                   </widget>
                  </item>
                  <item row="0" column="1">
                   <widget class="QRadioButton" name="radioButton_6">
                    <property name="text">
-                    <string>数字</string>
+                    <string>Numeric</string>
                    </property>
                   </widget>
                  </item>
                  <item row="0" column="0">
                   <widget class="QRadioButton" name="radioButton_5">
                    <property name="text">
-                    <string>自动</string>
+                    <string>Auto</string>
                    </property>
                    <property name="checked">
                     <bool>true</bool>
@@ -73,14 +73,14 @@
                  <item row="1" column="0">
                   <widget class="QRadioButton" name="radioButton_7">
                    <property name="text">
-                    <string>数字+字母</string>
+                    <string>Alphanumeric</string>
                    </property>
                   </widget>
                  </item>
                  <item row="2" column="0">
                   <widget class="QRadioButton" name="radioButton_9">
                    <property name="text">
-                    <string>汉字</string>
+                    <string>Kanji</string>
                    </property>
                   </widget>
                  </item>
@@ -90,14 +90,14 @@
               <item row="0" column="0">
                <widget class="QLabel" name="label">
                 <property name="text">
-                 <string>尺寸：</string>
+                 <string>Version:</string>
                 </property>
                </widget>
               </item>
               <item row="2" column="0">
                <widget class="QLabel" name="label_3">
                 <property name="text">
-                 <string>编码格式：</string>
+                 <string>MOde:</string>
                 </property>
                </widget>
               </item>
@@ -110,7 +110,7 @@
                  <item row="1" column="0">
                   <widget class="QRadioButton" name="errCorrHRadioButton">
                    <property name="text">
-                    <string>高（30%）</string>
+                    <string>High(30%)</string>
                    </property>
                    <property name="checked">
                     <bool>true</bool>
@@ -120,21 +120,21 @@
                  <item row="2" column="0">
                   <widget class="QRadioButton" name="errCorrMRadioButton">
                    <property name="text">
-                    <string>中等（15%）</string>
+                    <string>Medium(15%)</string>
                    </property>
                   </widget>
                  </item>
                  <item row="1" column="1">
                   <widget class="QRadioButton" name="errCorrQRadioButton">
                    <property name="text">
-                    <string>较高（25%）</string>
+                    <string>Quarter(25%)</string>
                    </property>
                   </widget>
                  </item>
                  <item row="2" column="1">
                   <widget class="QRadioButton" name="errCorrLRadioButton">
                    <property name="text">
-                    <string>低（7%）</string>
+                    <string>Low(7%)</string>
                    </property>
                   </widget>
                  </item>
@@ -144,17 +144,17 @@
               <item row="1" column="0">
                <widget class="QLabel" name="label_2">
                 <property name="text">
-                 <string>纠错级别：</string>
+                 <string>Error Correction Level:</string>
                 </property>
                </widget>
               </item>
               <item row="0" column="1">
                <widget class="QFrame" name="frame_6">
                 <property name="frameShape">
-                 <enum>QFrame::StyledPanel</enum>
+                 <enum>QFrame::Shape::StyledPanel</enum>
                 </property>
                 <property name="frameShadow">
-                 <enum>QFrame::Raised</enum>
+                 <enum>QFrame::Shadow::Raised</enum>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_8">
                  <item row="1" column="0">
@@ -176,7 +176,7 @@
                     <number>40</number>
                    </property>
                    <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
+                    <enum>Qt::Orientation::Horizontal</enum>
                    </property>
                   </widget>
                  </item>
@@ -193,7 +193,7 @@
                     <string>40</string>
                    </property>
                    <property name="alignment">
-                    <set>Qt::AlignCenter</set>
+                    <set>Qt::AlignmentFlag::AlignCenter</set>
                    </property>
                   </widget>
                  </item>
@@ -206,32 +206,32 @@
            <item>
             <widget class="QGroupBox" name="input_output">
              <property name="title">
-              <string>输入输出</string>
+              <string>Input/Output</string>
              </property>
              <layout class="QGridLayout" name="gridLayout_4">
               <item row="0" column="0">
                <widget class="QLabel" name="label_4">
                 <property name="text">
-                 <string>输入数据：</string>
+                 <string>Input Data:</string>
                 </property>
                </widget>
               </item>
               <item row="0" column="1">
                <widget class="QFrame" name="frame_3">
                 <property name="frameShape">
-                 <enum>QFrame::StyledPanel</enum>
+                 <enum>QFrame::Shape::StyledPanel</enum>
                 </property>
                 <property name="frameShadow">
-                 <enum>QFrame::Raised</enum>
+                 <enum>QFrame::Shadow::Raised</enum>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_5">
                  <item row="1" column="0">
                   <widget class="QFrame" name="frame_5">
                    <property name="frameShape">
-                    <enum>QFrame::StyledPanel</enum>
+                    <enum>QFrame::Shape::StyledPanel</enum>
                    </property>
                    <property name="frameShadow">
-                    <enum>QFrame::Raised</enum>
+                    <enum>QFrame::Shadow::Raised</enum>
                    </property>
                    <layout class="QGridLayout" name="gridLayout_6">
                     <item row="0" column="1">
@@ -240,7 +240,7 @@
                        <bool>true</bool>
                       </property>
                       <property name="text">
-                       <string>文件</string>
+                       <string>File</string>
                       </property>
                      </widget>
                     </item>
@@ -258,7 +258,7 @@
                   </widget>
                  </item>
                  <item row="2" column="0">
-                  <widget class="QTextEdit" name="inputTextTextEdit"/>
+                  <widget class="QPlainTextEdit" name="inputTextTextEdit"/>
                  </item>
                 </layout>
                </widget>
@@ -266,17 +266,17 @@
               <item row="1" column="0">
                <widget class="QLabel" name="label_5">
                 <property name="text">
-                 <string>输出目录：</string>
+                 <string>Output Dir:</string>
                 </property>
                </widget>
               </item>
               <item row="1" column="1">
                <widget class="QFrame" name="frame_4">
                 <property name="frameShape">
-                 <enum>QFrame::StyledPanel</enum>
+                 <enum>QFrame::Shape::StyledPanel</enum>
                 </property>
                 <property name="frameShadow">
-                 <enum>QFrame::Raised</enum>
+                 <enum>QFrame::Shadow::Raised</enum>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_7">
                  <item row="0" column="0">
@@ -299,7 +299,7 @@
                  <item row="0" column="1">
                   <widget class="QPushButton" name="outputDirPushButton">
                    <property name="text">
-                    <string>目录</string>
+                    <string>Dir</string>
                    </property>
                   </widget>
                  </item>
@@ -322,16 +322,16 @@
         <item>
          <widget class="QFrame" name="frame_2">
           <property name="frameShape">
-           <enum>QFrame::StyledPanel</enum>
+           <enum>QFrame::Shape::StyledPanel</enum>
           </property>
           <property name="frameShadow">
-           <enum>QFrame::Raised</enum>
+           <enum>QFrame::Shadow::Raised</enum>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_2">
            <item>
             <widget class="QGroupBox" name="groupBox_3">
              <property name="title">
-              <string>运行日志</string>
+              <string>Log</string>
              </property>
              <layout class="QHBoxLayout" name="horizontalLayout_3">
               <item>
@@ -343,7 +343,7 @@
            <item>
             <widget class="QPushButton" name="runPushButton">
              <property name="text">
-              <string>运行</string>
+              <string>Run</string>
              </property>
             </widget>
            </item>
@@ -354,7 +354,7 @@
       </widget>
       <widget class="QWidget" name="parse">
        <attribute name="title">
-        <string>解析</string>
+        <string>Parse</string>
        </attribute>
       </widget>
      </widget>
@@ -366,8 +366,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
-     <height>23</height>
+     <width>1169</width>
+     <height>27</height>
     </rect>
    </property>
   </widget>
