@@ -11,6 +11,7 @@ from qrdata.qrcode_data import QRData
 from qrdata.inputdata import InputData
 from qrdata.qrcode_generator import QRCodeGenerator
 from qrdata.logger import Logger
+from qrdata.data_check import DataChecker
 
 class MainWindow(QMainWindow):
     def __init__(self, qrdata, input_data):
@@ -104,6 +105,9 @@ class MainWindow(QMainWindow):
         output_dir = self.ui.outputDirLineEdit.text()
         generator = QRCodeGenerator(version, error_correction, data, output_dir, self.logger)
         generator.generate_qrcodes()
+
+        checker = DataChecker(data, output_dir, self.logger)
+        checker.check_data()
 
 def main():
     app = QApplication(sys.argv)

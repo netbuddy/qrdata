@@ -21,8 +21,10 @@ def zxingParseQRCode(filePath):
     if os.path.isfile(filePath):
         barcode = reader.decode(filePath)
         #print(barcode.parsed)
-        with open("qr_code_text_v2.txt", "w") as file:
-            file.write(barcode.parsed)
+        text = barcode.parsed
+        # with open("qr_code_text_v2.txt", "w") as file:
+        #     file.write(text)
+        return text
 
 if __name__ == '__main__':
     if len(sys.argv) != 2:
