@@ -15,11 +15,11 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QFrame, QGridLayout, QGroupBox,
-    QHBoxLayout, QLabel, QLineEdit, QMainWindow,
-    QMenuBar, QPlainTextEdit, QPushButton, QRadioButton,
-    QSizePolicy, QSlider, QStatusBar, QTabWidget,
-    QTextEdit, QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QApplication, QCheckBox, QFrame, QGridLayout,
+    QGroupBox, QHBoxLayout, QLabel, QLineEdit,
+    QMainWindow, QMenuBar, QPlainTextEdit, QPushButton,
+    QRadioButton, QSizePolicy, QSlider, QStatusBar,
+    QTabWidget, QTextEdit, QVBoxLayout, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -46,38 +46,38 @@ class Ui_MainWindow(object):
         self.parameter.setObjectName(u"parameter")
         self.gridLayout = QGridLayout(self.parameter)
         self.gridLayout.setObjectName(u"gridLayout")
-        self.groupBox_2 = QGroupBox(self.parameter)
-        self.groupBox_2.setObjectName(u"groupBox_2")
-        self.gridLayout_3 = QGridLayout(self.groupBox_2)
+        self.modeGroupBox = QGroupBox(self.parameter)
+        self.modeGroupBox.setObjectName(u"modeGroupBox")
+        self.gridLayout_3 = QGridLayout(self.modeGroupBox)
         self.gridLayout_3.setObjectName(u"gridLayout_3")
-        self.radioButton_8 = QRadioButton(self.groupBox_2)
-        self.radioButton_8.setObjectName(u"radioButton_8")
+        self.byteRadioButton = QRadioButton(self.modeGroupBox)
+        self.byteRadioButton.setObjectName(u"byteRadioButton")
 
-        self.gridLayout_3.addWidget(self.radioButton_8, 1, 1, 1, 1)
+        self.gridLayout_3.addWidget(self.byteRadioButton, 1, 1, 1, 1)
 
-        self.radioButton_6 = QRadioButton(self.groupBox_2)
-        self.radioButton_6.setObjectName(u"radioButton_6")
+        self.numericRadioButton = QRadioButton(self.modeGroupBox)
+        self.numericRadioButton.setObjectName(u"numericRadioButton")
 
-        self.gridLayout_3.addWidget(self.radioButton_6, 0, 1, 1, 1)
+        self.gridLayout_3.addWidget(self.numericRadioButton, 0, 1, 1, 1)
 
-        self.radioButton_5 = QRadioButton(self.groupBox_2)
-        self.radioButton_5.setObjectName(u"radioButton_5")
-        self.radioButton_5.setChecked(True)
+        self.autoRadioButton = QRadioButton(self.modeGroupBox)
+        self.autoRadioButton.setObjectName(u"autoRadioButton")
+        self.autoRadioButton.setChecked(True)
 
-        self.gridLayout_3.addWidget(self.radioButton_5, 0, 0, 1, 1)
+        self.gridLayout_3.addWidget(self.autoRadioButton, 0, 0, 1, 1)
 
-        self.radioButton_7 = QRadioButton(self.groupBox_2)
-        self.radioButton_7.setObjectName(u"radioButton_7")
+        self.alphanumericRadioButton = QRadioButton(self.modeGroupBox)
+        self.alphanumericRadioButton.setObjectName(u"alphanumericRadioButton")
 
-        self.gridLayout_3.addWidget(self.radioButton_7, 1, 0, 1, 1)
+        self.gridLayout_3.addWidget(self.alphanumericRadioButton, 1, 0, 1, 1)
 
-        self.radioButton_9 = QRadioButton(self.groupBox_2)
-        self.radioButton_9.setObjectName(u"radioButton_9")
+        self.kanjiRadioButton = QRadioButton(self.modeGroupBox)
+        self.kanjiRadioButton.setObjectName(u"kanjiRadioButton")
 
-        self.gridLayout_3.addWidget(self.radioButton_9, 2, 0, 1, 1)
+        self.gridLayout_3.addWidget(self.kanjiRadioButton, 2, 0, 1, 1)
 
 
-        self.gridLayout.addWidget(self.groupBox_2, 2, 1, 1, 1)
+        self.gridLayout.addWidget(self.modeGroupBox, 2, 1, 1, 1)
 
         self.label = QLabel(self.parameter)
         self.label.setObjectName(u"label")
@@ -221,21 +221,21 @@ class Ui_MainWindow(object):
 
         self.gridLayout_7.addWidget(self.outputDirLineEdit, 0, 0, 1, 1)
 
-        self.radioButton_12 = QRadioButton(self.frame_4)
-        self.radioButton_12.setObjectName(u"radioButton_12")
-        self.radioButton_12.setChecked(True)
+        self.pngRadioButton = QRadioButton(self.frame_4)
+        self.pngRadioButton.setObjectName(u"pngRadioButton")
+        self.pngRadioButton.setChecked(True)
 
-        self.gridLayout_7.addWidget(self.radioButton_12, 1, 0, 1, 1)
+        self.gridLayout_7.addWidget(self.pngRadioButton, 1, 0, 1, 1)
 
         self.outputDirPushButton = QPushButton(self.frame_4)
         self.outputDirPushButton.setObjectName(u"outputDirPushButton")
 
         self.gridLayout_7.addWidget(self.outputDirPushButton, 0, 1, 1, 1)
 
-        self.radioButton_13 = QRadioButton(self.frame_4)
-        self.radioButton_13.setObjectName(u"radioButton_13")
+        self.pdfRadioButton = QRadioButton(self.frame_4)
+        self.pdfRadioButton.setObjectName(u"pdfRadioButton")
 
-        self.gridLayout_7.addWidget(self.radioButton_13, 2, 0, 1, 1)
+        self.gridLayout_7.addWidget(self.pdfRadioButton, 2, 0, 1, 1)
 
 
         self.gridLayout_4.addWidget(self.frame_4, 1, 1, 1, 1)
@@ -261,13 +261,28 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_3.addWidget(self.logTextEdit)
 
-
-        self.horizontalLayout_2.addWidget(self.groupBox_3)
-
-        self.runPushButton = QPushButton(self.frame_2)
+        self.frame_7 = QFrame(self.groupBox_3)
+        self.frame_7.setObjectName(u"frame_7")
+        self.frame_7.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_7.setFrameShadow(QFrame.Shadow.Raised)
+        self.verticalLayout_3 = QVBoxLayout(self.frame_7)
+        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
+        self.runPushButton = QPushButton(self.frame_7)
         self.runPushButton.setObjectName(u"runPushButton")
 
-        self.horizontalLayout_2.addWidget(self.runPushButton)
+        self.verticalLayout_3.addWidget(self.runPushButton)
+
+        self.previewCheckBox = QCheckBox(self.frame_7)
+        self.previewCheckBox.setObjectName(u"previewCheckBox")
+        self.previewCheckBox.setChecked(True)
+
+        self.verticalLayout_3.addWidget(self.previewCheckBox)
+
+
+        self.horizontalLayout_3.addWidget(self.frame_7)
+
+
+        self.horizontalLayout_2.addWidget(self.groupBox_3)
 
 
         self.verticalLayout_2.addWidget(self.frame_2)
@@ -299,14 +314,14 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
         self.parameter.setTitle(QCoreApplication.translate("MainWindow", u"QRCode parameters", None))
-        self.groupBox_2.setTitle("")
-        self.radioButton_8.setText(QCoreApplication.translate("MainWindow", u"Byte", None))
-        self.radioButton_6.setText(QCoreApplication.translate("MainWindow", u"Numeric", None))
-        self.radioButton_5.setText(QCoreApplication.translate("MainWindow", u"Auto", None))
-        self.radioButton_7.setText(QCoreApplication.translate("MainWindow", u"Alphanumeric", None))
-        self.radioButton_9.setText(QCoreApplication.translate("MainWindow", u"Kanji", None))
+        self.modeGroupBox.setTitle("")
+        self.byteRadioButton.setText(QCoreApplication.translate("MainWindow", u"Byte", None))
+        self.numericRadioButton.setText(QCoreApplication.translate("MainWindow", u"Numeric", None))
+        self.autoRadioButton.setText(QCoreApplication.translate("MainWindow", u"Auto", None))
+        self.alphanumericRadioButton.setText(QCoreApplication.translate("MainWindow", u"Alphanumeric", None))
+        self.kanjiRadioButton.setText(QCoreApplication.translate("MainWindow", u"Kanji", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"Version:", None))
-        self.label_3.setText(QCoreApplication.translate("MainWindow", u"MOde:", None))
+        self.label_3.setText(QCoreApplication.translate("MainWindow", u"Mode:", None))
         self.errCorrGroupBox.setTitle("")
         self.errCorrHRadioButton.setText(QCoreApplication.translate("MainWindow", u"High(30%)", None))
         self.errCorrMRadioButton.setText(QCoreApplication.translate("MainWindow", u"Medium(15%)", None))
@@ -320,11 +335,12 @@ class Ui_MainWindow(object):
         self.label_4.setText(QCoreApplication.translate("MainWindow", u"Input Data:", None))
         self.inputFilePushButton.setText(QCoreApplication.translate("MainWindow", u"File", None))
         self.label_5.setText(QCoreApplication.translate("MainWindow", u"Output Dir:", None))
-        self.radioButton_12.setText(QCoreApplication.translate("MainWindow", u"png", None))
+        self.pngRadioButton.setText(QCoreApplication.translate("MainWindow", u"png", None))
         self.outputDirPushButton.setText(QCoreApplication.translate("MainWindow", u"Dir", None))
-        self.radioButton_13.setText(QCoreApplication.translate("MainWindow", u"pdf", None))
+        self.pdfRadioButton.setText(QCoreApplication.translate("MainWindow", u"pdf", None))
         self.groupBox_3.setTitle(QCoreApplication.translate("MainWindow", u"Log", None))
         self.runPushButton.setText(QCoreApplication.translate("MainWindow", u"Run", None))
+        self.previewCheckBox.setText(QCoreApplication.translate("MainWindow", u"Preview", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.create), QCoreApplication.translate("MainWindow", u"Generate", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.parse), QCoreApplication.translate("MainWindow", u"Parse", None))
     # retranslateUi

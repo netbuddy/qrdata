@@ -1,6 +1,22 @@
-#给定一个qtextedit控件，提供一个log函数，该函数接收字符串输入可以输出到qtextedit控件中
-class Logger:
+from abc import ABC, abstractmethod
+
+#基类
+class Logger(ABC):
+    def __init__(self):
+        pass
+    @abstractmethod
+    def log(self, msg):
+        pass
+
+class GUILogger(Logger):
     def __init__(self, qtextedit):
+        super().__init__()
         self.qtextedit = qtextedit
     def log(self, msg):
         self.qtextedit.append(msg)
+
+class CUILogger(Logger):
+    def __init__(self):
+        super().__init__()
+    def log(self, msg):
+        print(msg)

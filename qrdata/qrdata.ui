@@ -41,27 +41,27 @@
              </property>
              <layout class="QGridLayout" name="gridLayout">
               <item row="2" column="1">
-               <widget class="QGroupBox" name="groupBox_2">
+               <widget class="QGroupBox" name="modeGroupBox">
                 <property name="title">
                  <string/>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_3">
                  <item row="1" column="1">
-                  <widget class="QRadioButton" name="radioButton_8">
+                  <widget class="QRadioButton" name="byteRadioButton">
                    <property name="text">
                     <string>Byte</string>
                    </property>
                   </widget>
                  </item>
                  <item row="0" column="1">
-                  <widget class="QRadioButton" name="radioButton_6">
+                  <widget class="QRadioButton" name="numericRadioButton">
                    <property name="text">
                     <string>Numeric</string>
                    </property>
                   </widget>
                  </item>
                  <item row="0" column="0">
-                  <widget class="QRadioButton" name="radioButton_5">
+                  <widget class="QRadioButton" name="autoRadioButton">
                    <property name="text">
                     <string>Auto</string>
                    </property>
@@ -71,14 +71,14 @@
                   </widget>
                  </item>
                  <item row="1" column="0">
-                  <widget class="QRadioButton" name="radioButton_7">
+                  <widget class="QRadioButton" name="alphanumericRadioButton">
                    <property name="text">
                     <string>Alphanumeric</string>
                    </property>
                   </widget>
                  </item>
                  <item row="2" column="0">
-                  <widget class="QRadioButton" name="radioButton_9">
+                  <widget class="QRadioButton" name="kanjiRadioButton">
                    <property name="text">
                     <string>Kanji</string>
                    </property>
@@ -97,7 +97,7 @@
               <item row="2" column="0">
                <widget class="QLabel" name="label_3">
                 <property name="text">
-                 <string>MOde:</string>
+                 <string>Mode:</string>
                 </property>
                </widget>
               </item>
@@ -287,7 +287,7 @@
                   </widget>
                  </item>
                  <item row="1" column="0">
-                  <widget class="QRadioButton" name="radioButton_12">
+                  <widget class="QRadioButton" name="pngRadioButton">
                    <property name="text">
                     <string>png</string>
                    </property>
@@ -304,7 +304,7 @@
                   </widget>
                  </item>
                  <item row="2" column="0">
-                  <widget class="QRadioButton" name="radioButton_13">
+                  <widget class="QRadioButton" name="pdfRadioButton">
                    <property name="text">
                     <string>pdf</string>
                    </property>
@@ -337,14 +337,36 @@
               <item>
                <widget class="QTextEdit" name="logTextEdit"/>
               </item>
+              <item>
+               <widget class="QFrame" name="frame_7">
+                <property name="frameShape">
+                 <enum>QFrame::Shape::StyledPanel</enum>
+                </property>
+                <property name="frameShadow">
+                 <enum>QFrame::Shadow::Raised</enum>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_3">
+                 <item>
+                  <widget class="QPushButton" name="runPushButton">
+                   <property name="text">
+                    <string>Run</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QCheckBox" name="previewCheckBox">
+                   <property name="text">
+                    <string>Preview</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
              </layout>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="runPushButton">
-             <property name="text">
-              <string>Run</string>
-             </property>
             </widget>
            </item>
           </layout>

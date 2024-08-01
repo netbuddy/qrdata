@@ -10,10 +10,12 @@ def pyzbarParseQRCode(filePath):
         texts = decode(img)#解码验证码图片
         qrInfo=""
         for text in texts:#遍历解码数据
-          qrInfo += text.data.decode("utf-8")#将内容解码成指定格式
+          data = text.data
+          qrInfo += data.decode("utf-8")#将内容解码成指定格式
           #print(qrInfo)#打印
-        with open("qr_code_text_v1.txt", "w") as file:
-            file.write(qrInfo)
+        # with open("qr_code_text_v1.txt", "w") as file:
+        #     file.write(qrInfo)
+        return qrInfo
 
 #解析方法二:借助zxing识别
 def zxingParseQRCode(filePath):
@@ -27,10 +29,7 @@ def zxingParseQRCode(filePath):
         return text
 
 if __name__ == '__main__':
-    if len(sys.argv) != 2:
-        print("Usage: python script.py <file_path>")
-        sys.exit(1)
-
-    filePath = sys.argv[1]
+    # 选择文件名并写入文件
+    filePath = input("请输入文件名 (包括扩展名): ")
     pyzbarParseQRCode(filePath)
     zxingParseQRCode(filePath)

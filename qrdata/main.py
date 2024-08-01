@@ -1,16 +1,19 @@
 import os
 import sys
+import tempfile
+from PIL import Image
 from PySide6.QtCore import Qt, QMetaObject, QTranslator
 from PySide6.QtGui import QAction, QIcon
 from PySide6.QtWidgets import QApplication, QMainWindow, QFileDialog, QToolBar
 
 from chardet.universaldetector import UniversalDetector
 
+from qrdata.enums import QrCodeMode
 from qrdata.qrdata_ui import Ui_MainWindow  # 导入从.ui文件生成的UI类
 from qrdata.qrcode_data import QRData
 from qrdata.inputdata import InputData
 from qrdata.qrcode_generator import QRCodeGenerator
-from qrdata.logger import Logger
+from qrdata.logger import GUILogger, Logger
 from qrdata.data_check import DataChecker
 
 class MainWindow(QMainWindow):
@@ -28,7 +31,7 @@ class MainWindow(QMainWindow):
 
         self.qrdata = qrdata
         self.input_data = input_data
-        self.logger = Logger(self.ui.logTextEdit)
+        self.logger = GUILogger(self.ui.logTextEdit)
 
         self.ui.versionSlider.valueChanged.connect(self.updateVersionLabel)
         self.ui.versionSlider.valueChanged.connect(lambda x: self.qrdata.set_version(self.ui.versionSlider.value()))
@@ -101,14 +104,62 @@ class MainWindow(QMainWindow):
             error_correction = "M"
         elif self.ui.errCorrLRadioButton.isChecked():
             error_correction = "L"
+        #判断modeGroupBox中哪一个radiobox被选中
+        if self.ui.autoRadioButton.isChecked():
+            mode = QrCodeMode.Byte
+        elif self.ui.numericRadioButton.isChecked():
+            mode = QrCodeMode.Numeric
+        elif self.ui.alphanumericRadioButton.isChecked():
+            mode = QrCodeMode.Alphanumeric
+        elif self.ui.byteRadioButton.isChecked():
+            mode = QrCodeMode.Byte
+        elif self.ui.kanjiRadioButton.isChecked():
+            mode = QrCodeMode.Kanji
         data = self.ui.inputTextTextEdit.toPlainText()
         output_dir = self.ui.outputDirLineEdit.text()
-        generator = QRCodeGenerator(version, error_correction, data, output_dir, self.logger)
-        generator.generate_qrcodes()
+        
+        if self.ui.pdfRadioButton.isChecked():
+            #创建临时目录（mkdtemp）
+            images_output_dir = tempfile.mkdtemp()
+        else:
+            images_output_dir = output_dir
+        generator = QRCodeGenerator(self.logger)
+        generator.generate_qrcodes(version, error_correction, mode, data, images_output_dir)
 
-        checker = DataChecker(data, output_dir, self.logger)
+        checker = DataChecker(data, images_output_dir, self.logger)
         checker.check_data()
 
+        if self.ui.pngRadioButton.isChecked():
+            if self.ui.previewCheckBox.isChecked():
+                image_path = os.path.join(output_dir, 'qrcode_0.png')
+                self.open_file(image_path)
+        elif self.ui.pdfRadioButton.isChecked():
+            self.merge_images_to_pdf(images_output_dir, output_dir)
+            if self.ui.previewCheckBox.isChecked():
+                pdf_path = os.path.join(output_dir, 'qrcode.pdf')
+                self.open_file(pdf_path)
+        
+
+    def open_file(self, file_path):
+        #打开系统默认的图片工具并显示指定的图片
+        if os.name == 'nt':
+            os.system('start ' + file_path)
+        elif os.name == 'posix':
+            os.system('xdg-open ' + file_path)
+        else:
+            print('unsupported platform')
+    
+    #将多个png图片合并为一个pdf文件
+    def merge_images_to_pdf(self, images_dir, output_dir):
+        output_path = os.path.join(output_dir, 'qrcode.pdf')
+        images = []
+        file_names = os.listdir(images_dir)
+        file_names.sort(key=lambda x: int(x.split('_')[1].split('.')[0]))
+        for file_name in file_names:
+            file_path = os.path.join(images_dir, file_name)
+            images.append(Image.open(file_path))
+        images[0].save(output_path, save_all=True, append_images=images[1:])
+        self.logger.log("QR codes pdf saved to: " + output_dir + "\n")
 def main():
     app = QApplication(sys.argv)
 
