@@ -50,31 +50,26 @@ class Ui_MainWindow(object):
         self.modeGroupBox.setObjectName(u"modeGroupBox")
         self.gridLayout_3 = QGridLayout(self.modeGroupBox)
         self.gridLayout_3.setObjectName(u"gridLayout_3")
-        self.byteRadioButton = QRadioButton(self.modeGroupBox)
-        self.byteRadioButton.setObjectName(u"byteRadioButton")
-
-        self.gridLayout_3.addWidget(self.byteRadioButton, 1, 1, 1, 1)
-
         self.numericRadioButton = QRadioButton(self.modeGroupBox)
         self.numericRadioButton.setObjectName(u"numericRadioButton")
 
-        self.gridLayout_3.addWidget(self.numericRadioButton, 0, 1, 1, 1)
-
-        self.autoRadioButton = QRadioButton(self.modeGroupBox)
-        self.autoRadioButton.setObjectName(u"autoRadioButton")
-        self.autoRadioButton.setChecked(True)
-
-        self.gridLayout_3.addWidget(self.autoRadioButton, 0, 0, 1, 1)
+        self.gridLayout_3.addWidget(self.numericRadioButton, 0, 0, 1, 1)
 
         self.alphanumericRadioButton = QRadioButton(self.modeGroupBox)
         self.alphanumericRadioButton.setObjectName(u"alphanumericRadioButton")
 
-        self.gridLayout_3.addWidget(self.alphanumericRadioButton, 1, 0, 1, 1)
+        self.gridLayout_3.addWidget(self.alphanumericRadioButton, 0, 1, 1, 1)
+
+        self.byteRadioButton = QRadioButton(self.modeGroupBox)
+        self.byteRadioButton.setObjectName(u"byteRadioButton")
+        self.byteRadioButton.setChecked(True)
+
+        self.gridLayout_3.addWidget(self.byteRadioButton, 1, 0, 1, 1)
 
         self.kanjiRadioButton = QRadioButton(self.modeGroupBox)
         self.kanjiRadioButton.setObjectName(u"kanjiRadioButton")
 
-        self.gridLayout_3.addWidget(self.kanjiRadioButton, 2, 0, 1, 1)
+        self.gridLayout_3.addWidget(self.kanjiRadioButton, 1, 1, 1, 1)
 
 
         self.gridLayout.addWidget(self.modeGroupBox, 2, 1, 1, 1)
@@ -315,10 +310,9 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
         self.parameter.setTitle(QCoreApplication.translate("MainWindow", u"QRCode parameters", None))
         self.modeGroupBox.setTitle("")
-        self.byteRadioButton.setText(QCoreApplication.translate("MainWindow", u"Byte", None))
         self.numericRadioButton.setText(QCoreApplication.translate("MainWindow", u"Numeric", None))
-        self.autoRadioButton.setText(QCoreApplication.translate("MainWindow", u"Auto", None))
         self.alphanumericRadioButton.setText(QCoreApplication.translate("MainWindow", u"Alphanumeric", None))
+        self.byteRadioButton.setText(QCoreApplication.translate("MainWindow", u"Byte", None))
         self.kanjiRadioButton.setText(QCoreApplication.translate("MainWindow", u"Kanji", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"Version:", None))
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"Mode:", None))

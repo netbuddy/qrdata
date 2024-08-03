@@ -3,11 +3,11 @@
 import base64
 import os
 
-from qrdata.parse_qrcode import pyzbarParseQRCode
+from qrdata.parse_qrcode import pyzbarParseQRCode, zxingParseQRCode
 
 
 class DataChecker:
-    def __init__(self, raw_data, images_dir, logger):
+    def __init__(self, raw_data, data_encoding, images_dir, logger):
         self.raw_data = raw_data
         #raw_data为数据，保存为文件，保存在/tmp目录下
         if isinstance(raw_data, str):
@@ -20,8 +20,9 @@ class DataChecker:
         self.raw_file = os.path.join('/tmp', 'raw_data')
         self.images_dir = images_dir
         self.logger = logger
+        self.data_encoding = data_encoding
 
-    def check_data(self):
+    def check_data(self, engine):
         #images_dir的文件名称为"xxx_0.ong,xxx_1.png,xxx_2.png"的格式，按顺序加载文件
         file_names = os.listdir(self.images_dir)
         file_names.sort(key=lambda x: int(x.split('_')[1].split('.')[0]))
@@ -32,7 +33,11 @@ class DataChecker:
             if os.path.isfile(file_path):
                 print(file_path)
                 #解析二维码
-                data = pyzbarParseQRCode(file_path)
+                if engine == 'pyzbar':
+                    data = pyzbarParseQRCode(file_path, self.data_encoding)
+                elif engine == 'zxing':
+                    data = zxingParseQRCode(file_path)
+                data_len = len(data)
                 if data is None:
                     print("解析二维码失败")
                     break
@@ -41,21 +46,18 @@ class DataChecker:
                 else:
                     qrcode_data += data
 
-        try:
-            #中文文本
-            if base64.b64encode(base64.b64decode(qrcode_data)).decode() == qrcode_data:
-                qrcode_data = base64.b64decode(qrcode_data)
-                with open(os.path.join('/tmp', 'qrdata'), 'wb') as f:
-                    f.write(qrcode_data)
-            #英文文本
-            else:
-                with open(os.path.join('/tmp', 'qrdata'), 'w') as f:
-                    f.write(qrcode_data)
-        except ValueError as e:
-            #二进制数据
-            result_bytes = self.bytesstr_to_bytes(qrcode_data)
+        if self.data_encoding == 'gbk':
+            qrcode_data = base64.b64decode(qrcode_data)
             with open(os.path.join('/tmp', 'qrdata'), 'wb') as f:
-                    f.write(result_bytes)
+                f.write(qrcode_data)
+        elif self.data_encoding == 'binary':
+            # result_bytes = self.bytesstr_to_bytes(qrcode_data)
+            qrcode_data = base64.b64decode(qrcode_data)
+            with open(os.path.join('/tmp', 'qrdata'), 'wb') as f:
+                f.write(qrcode_data)
+        else:
+            with open(os.path.join('/tmp', 'qrdata'), 'w') as f:
+                f.write(qrcode_data)
             
         #如果当前平台为linux，采用sha256sum工具分别计算raw_file和qrdata的校验值，比较是否相同
         if os.name == 'posix':
@@ -66,10 +68,10 @@ class DataChecker:
             with open(os.path.join('/tmp', 'qrdata_sha256'), 'r') as f:
                 qrdata_sha256 = f.readline().split(' ')[0]
             if raw_file_sha256 ==qrdata_sha256:
-                self.logger.log("数据校验成功")
+                self.logger.log("{} 数据校验成功".format(engine))
                 return True
             else:
-                self.logger.log("数据校验失败")
+                self.logger.log("{} 数据校验失败".format(engine))
                 return False
 
     def bytesstr_to_bytes(self, bytes_str):

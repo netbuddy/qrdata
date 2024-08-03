@@ -31,7 +31,9 @@ class MainWindow(QMainWindow):
 
         self.qrdata = qrdata
         self.input_data = input_data
+        self.selected_file = None
         self.logger = GUILogger(self.ui.logTextEdit)
+        self.data_encoding = 'unknown'
 
         self.ui.versionSlider.valueChanged.connect(self.updateVersionLabel)
         self.ui.versionSlider.valueChanged.connect(lambda x: self.qrdata.set_version(self.ui.versionSlider.value()))
@@ -48,19 +50,20 @@ class MainWindow(QMainWindow):
         self.ui.versionLabel.setText(str(version_value))
 
     def openFileDialog(self):
-        selected_file, _ = QFileDialog.getOpenFileName(self, "选择文件", "", "All Files (*)")
-        if selected_file:
-            file_encoding, confidence = self.detcect_encoding(selected_file)
+        self.selected_file, _ = QFileDialog.getOpenFileName(self, "选择文件", "", "All Files (*)")
+        if self.selected_file:
+            file_encoding, confidence = self.detcect_encoding(self.selected_file)
+            self.data_encoding = file_encoding
             log_str = "文件编码格式为：{}， 置信度为：{}".format(file_encoding, confidence)
             self.logger.log(log_str)
             if file_encoding != 'unknown' and confidence > 0.75:
                 #TODO 根据不同的编码格式，进行不同的处理
-                with open(selected_file, 'r', encoding='utf-8', errors='ignore') as file:
+                with open(self.selected_file, 'r', encoding=file_encoding) as file:
                     content = file.read()
                 self.ui.inputTextTextEdit.appendPlainText(content)
             else:
                 self.ui.inputTextTextEdit.appendPlainText(f"<span style='color:red;'>该文件为二进制文件</span>")
-            self.ui.inputFileLineEdit.setText(selected_file)
+            self.ui.inputFileLineEdit.setText(self.selected_file)
     def selectOutputDirectory(self):
         selected_directory = QFileDialog.getExistingDirectory(self, "选择目录")
         if selected_directory:
@@ -105,9 +108,7 @@ class MainWindow(QMainWindow):
         elif self.ui.errCorrLRadioButton.isChecked():
             error_correction = "L"
         #判断modeGroupBox中哪一个radiobox被选中
-        if self.ui.autoRadioButton.isChecked():
-            mode = QrCodeMode.Byte
-        elif self.ui.numericRadioButton.isChecked():
+        if self.ui.numericRadioButton.isChecked():
             mode = QrCodeMode.Numeric
         elif self.ui.alphanumericRadioButton.isChecked():
             mode = QrCodeMode.Alphanumeric
@@ -115,7 +116,8 @@ class MainWindow(QMainWindow):
             mode = QrCodeMode.Byte
         elif self.ui.kanjiRadioButton.isChecked():
             mode = QrCodeMode.Kanji
-        data = self.ui.inputTextTextEdit.toPlainText()
+        with open(self.selected_file, 'rb') as file:
+            data = file.read()
         output_dir = self.ui.outputDirLineEdit.text()
         
         if self.ui.pdfRadioButton.isChecked():
@@ -124,10 +126,11 @@ class MainWindow(QMainWindow):
         else:
             images_output_dir = output_dir
         generator = QRCodeGenerator(self.logger)
-        generator.generate_qrcodes(version, error_correction, mode, data, images_output_dir)
+        generator.generate_qrcodes(version, error_correction, mode, data, self.data_encoding, images_output_dir)
 
-        checker = DataChecker(data, images_output_dir, self.logger)
-        checker.check_data()
+        checker = DataChecker(data, self.data_encoding, images_output_dir, self.logger)
+        res1 = checker.check_data('pyzbar')
+        res2 = checker.check_data('zxing')
 
         if self.ui.pngRadioButton.isChecked():
             if self.ui.previewCheckBox.isChecked():
@@ -165,10 +168,10 @@ def main():
 
     #TODO 将界面由ui改为qml，实现多语言运行时切换
     #https://github.com/AndreAugustoDev/Python-QML-Dynamic-Language-Switch
-    current_dir = os.path.dirname(__file__)
-    translator = QTranslator()
-    if translator.load('zh_cn.qm', directory=os.path.join(current_dir, 'data/i18n')):
-        app.installTranslator(translator)
+    # current_dir = os.path.dirname(__file__)
+    # translator = QTranslator()
+    # if translator.load('zh_cn.qm', directory=os.path.join(current_dir, 'data/i18n')):
+    #     app.installTranslator(translator)
         
     qr_data = QRData()
     input_data = InputData()

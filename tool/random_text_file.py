@@ -30,7 +30,7 @@ def generate_random_string(type, length):
                 characters += character
         return characters
     elif type == 4:
-        characters = string.digits + string.ascii_letters + string.punctuation + string.whitespace
+        characters = string.digits + string.ascii_letters + string.punctuation + ' \t\n\r'
         return ''.join(random.choice(characters) for _ in range(length))
     elif type == 5:
         characters = ''

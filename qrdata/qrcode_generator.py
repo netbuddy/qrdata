@@ -1,4 +1,5 @@
 import csv
+import math
 import qrcode
 import os
 import segno
@@ -11,13 +12,21 @@ class QRCodeGenerator:
         self.qrcodes = []
         self.logger = logger
 
-    def generate_qrcodes(self, version, error_correction, mode, in_data, output_dir):
-        if isinstance(in_data, bytes):
-            data = self.binary_to_base64(in_data)
-        else:
-            data = in_data
-        in_data_len = len(in_data)
-        data_len = len(data)
+    def generate_qrcodes(self, version, error_correction, mode, bytes_data, data_encoding, output_dir):
+        # if isinstance(in_data, bytes):
+        #     data = self.binary_to_base64(in_data)
+        # else:
+        #     data = in_data
+        if data_encoding == 'ascii':
+            str_data = bytes_data.decode('ascii')
+        elif data_encoding == 'utf-8':
+            str_data = bytes_data.decode('utf-8')
+        elif data_encoding == 'gbk':
+            str_data = self.binary_to_base64(bytes_data)
+        elif data_encoding == 'binary':
+            str_data = self.binary_to_base64(bytes_data)
+        bytes_data_len = len(bytes_data)    
+        str_data_len = len(str_data)
         #读取qrcode.csv文件，基于version和error_correction的值从文件中筛选出特定的行
         max_bytes = 0
         #得到当前文件所在的目录
@@ -29,12 +38,31 @@ class QRCodeGenerator:
             for row in reader:
                 if int(row[0]) == version and row[1] == error_correction:
                     max_bytes = int(row[mode.value])
-                    #将max_bytes凑整为100的整数倍
-                    # max_bytes = max_bytes - max_bytes % 100
                     break
+        
+        # #英文文本
+        # if data_encoding == 'ascii':
+        #     #全数字
+        #     if mode == QrCodeMode.Numeric:
+        #         max_chars = min(max_bytes, 7089)
+        #     #数字+大写字母
+        #     elif mode == QrCodeMode.Alphanumeric:
+        #         max_chars = min(max_bytes, 4296)
+        #     else:
+        #         max_chars = min(max_bytes, 2953)
+        # #非英文文本
+        # elif data_encoding == 'utf-8':
+        #     max_chars = min(max_bytes//3, 984)
+        # #中文文本(gbk)
+        # elif data_encoding == 'gbk':
+        #     max_chars = max_bytes
+        # elif data_encoding == 'binary':
+        #     max_chars = max_bytes
+        if data_encoding == 'utf-8':
+            max_bytes = max_bytes//3
 
-        for i in range(0, len(data), max_bytes):
-            chunk = data[i:i + max_bytes]
+        for i in range(0, str_data_len, max_bytes):
+            chunk = str_data[i:i + max_bytes]
             if error_correction == "H":
                 error_correction=qrcode.constants.ERROR_CORRECT_H
             elif error_correction == "M":
